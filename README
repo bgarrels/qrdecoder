@@ -1,0 +1,76 @@
+Info:
+-----
+
+    Title:    qrDecoder
+    Version:  0.1.1
+    Homepage: http://qrdecoder.googlecode.com
+
+    Author:   Nicholas Wilde
+    Email:    ncwilde43@gmail.com
+
+    License:  GNU GPLv3 <http://www.gnu.org/licenses/gpl-3.0.txt>
+
+Description:
+------------
+
+    qrDecoder is a small cross platform program based on PyQt4 toolkit and
+    zbar bar code reader suite that allows you to decode QR codes
+    <http://en.wikipedia.org/wiki/QR_codes>
+
+Run instructions for Windwos:
+-----------------------------
+    Run qrDecoder.exe
+
+Run instructions for Python:
+----------------------------
+    
+    Make sure all dependencies are installed and run:
+
+        python qrdecoder.pyw
+
+Python Dependencies:
+--------------------
+
+    - Title:    PyQt4 GUI toolkit
+      Homepage: <http://www.riverbankcomputing.co.uk/software/pyqt/>
+      Author:   Phil Thompson & licensed under
+      License:  GNU GPLv3
+
+    - Title:    SIP
+      Homepage: <http://www.riverbankcomputing.co.uk/software/sip/intro>
+      Author:   
+      License:  GNU GPLv3
+
+    - Title:    zbar
+      Homepage: <http://zbar.sourceforge.net/>
+      Author:   Jeff Brown
+      License:  GNU LGPLv2.1
+
+    - Title:    Python Imaging Library (PIL)
+      Homepage: <http://www.pythonware.com/products/pil/>
+      Authors:  Secret Labs AB & Fredrik Lundh;
+      License:  <http://www.pythonware.com/products/pil/license.htm>  
+
+Icon:
+-----
+
+    Icon:     Android QR Code icon
+    Homepage: <http://www.iconspedia.com/icon/android-qr-code-16-46.html>
+    Author:   DsynFLO Creations, Bharath Prabhuswamy
+              <http://bharathp666.deviantart.com/>
+    License:  Free <http://www.iconspedia.com/dload.php?up_id=92791>
+
+Special Thanks:
+---------------
+
+    Special thanks to Filip Szymanski, author of pdfMechanic, for answering 
+    basic questions and giving code suggestions.
+
+    A good part of the gui manipulation code is based off of pdfMechanic.
+    <http://pdfmechanic.googlecode.com>
+
+Testing:
+--------
+
+    Tested on Windows Vista and 7 with Python 2.7.2, SIP 4.13, PyQt4 4.8.6,
+    zbar 0.10, & PIL 1.1.7.
