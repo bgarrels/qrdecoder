@@ -1,0 +1,12 @@
+include README
+include setup.py
+include LICENSE
+include CHANGELOG
+recursive-include src *.py *.ui *.png *.ico *.qrc
+recursive-include test *.*
+include *.pyw
+include makefile
+include VERSION
+include *.nsi
+exclude build
+exclude dist

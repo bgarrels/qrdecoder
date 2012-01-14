@@ -20,7 +20,7 @@
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 # Import Stuff
-import sys, os, zbar, Image, sip, string
+import sys, os, zbar, Image, sip, string, logging
 import PcxImagePlugin, TgaImagePlugin, TiffImagePlugin
 sip.setapi("QVariant", 2)
 from PyQt4 import QtGui, QtCore
@@ -31,9 +31,29 @@ from src.ui.ui_aboutwindow import Ui_aboutDialog
 import src.ui.images_rc
 
 # App Name
-__appName__ = "qrDecoder"
+__appName__ = 'qrDecoder'
 __verFileName__ = 'VERSION'
 __configFileName__ = 'settings'
+
+# Enable logging for both console and file
+# http://docs.python.org/howto/logging-cookbook.html#multiple-handlers-and-formatters
+__logFileName__ = __appName__.lower() + '.log'
+logger = logging.getLogger('error_logging')
+logger.setLevel(logging.DEBUG)
+# create file handler which logs even debug messages
+fh = logging.FileHandler(__logFileName__)
+fh.setLevel(logging.DEBUG)
+# create console handler with a higher log level
+ch = logging.StreamHandler()
+ch.setLevel(logging.ERROR)
+# create formatter and add it to the handlers
+#formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+fh.setFormatter(formatter)
+# add the handlers to logger
+logger.addHandler(ch)
+logger.addHandler(fh)
 
 # Determine if application is a script file or frozen exe and get appPath
 # http://stackoverflow.com/a/404750/1061279
@@ -41,13 +61,17 @@ if hasattr(sys, 'frozen'):
     __appPath__ = os.path.dirname(sys.executable)
 elif __file__:
     __appPath__ = os.path.dirname(__file__)
-
 __verPath__ = os.path.join(__appPath__, __verFileName__)
 
 # Get qrdecoder version from VERSION file
-f = open(__verPath__, 'r')
-__version__ = f.readline()
-f.close()
+try:
+    f = open(__verPath__, 'r')
+    __version__ = f.readline()
+    f.close()
+    __winTitle__ = __appName__+' - v' + __version__
+except:
+    logger.error(__verFileName__ + ' file is missing.')
+    __winTitle__ = __appName__
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- ABOUT WINDOW =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -58,7 +82,7 @@ class AboutDialog(QDialog, Ui_aboutDialog):
         self.setupUi(self)
         self.setWindowTitle("About")
         # Info displayed in the About window
-        __info__ = ("<b>"+__appName__+" v" + __version__ + "</b>"
+        __info__ = ("<b>"+ __winTitle__ + "</b>"
             "<p>Author: Nicholas Wilde"
             "<p>E-mail: <a href='mailto:ncwilde43@gmail.com'>ncwilde43@gmail.com</a>"
             "<p>Home page: <a href='http://code.google.com/p/qrdecoder/'>http://qrdecoder.googlecode.com</a>"
@@ -89,7 +113,7 @@ class qrDecoder(QMainWindow, Ui_MainWindow):
         self.layout().setSizeConstraint(QtGui.QLayout.SetFixedSize)
         
         # Set window title
-        self.setWindowTitle(__appName__+" - v"+__version__)
+        self.setWindowTitle(__winTitle__)
 
         # Set qlineedit to read only so user can copy but not edit.
         self.lineEdit_code.setReadOnly(1)
@@ -134,7 +158,12 @@ class qrDecoder(QMainWindow, Ui_MainWindow):
         scanner.parse_config('enable')
 
         # obtain image data
+#        try:
         pil = Image.open(unicode(self.lineEdit_location.text())).convert('L')
+#        except IOError:
+#            logging.error('Cannot open ' + unicode(self.lineEdit_location.text()))
+            
+            
         width, height = pil.size
         raw = pil.tostring()
 

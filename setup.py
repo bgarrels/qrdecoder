@@ -46,8 +46,11 @@
 appName = 'qrDecoder'
 appNameLower = appName.lower()
 
-import sys, re
+import sys, re, os
 from cx_Freeze import setup, Executable
+
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 # Get qrdecoder version
 f = open('VERSION', 'r')
@@ -80,6 +83,9 @@ setup(
         description = 'A small desktop program that decodes QR codes.',
         author = u'Nicholas Wilde',
         author_email = 'ncwilde43@gmail.com',
+        license= 'GNU GPL v3',
+        url = 'http://qrdecoder.googlecode.com/',
+        long_description = read('README'),
         options = {'build_exe': {'optimize': 2,
                                  'includes': includes,
                                  'include_files': includefiles,
